@@ -1,6 +1,7 @@
 const { config } = require('dotenv');
-const server = require('./src/server.js');
+const { start } = require('./src/server.js');
+
 
 config();
+start();
 
-server.listen(process.ENV.PORT || 3001);

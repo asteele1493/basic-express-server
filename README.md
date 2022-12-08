@@ -19,4 +19,3 @@ This project will focus on building an express server to work with dynamic API's
 - 200 if the name is in the query string
 
 - given an name in the query string, the output object is correct
-
