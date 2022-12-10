@@ -1,9 +1,10 @@
 function validator(req, res, next) {
   // server.get('/person', (req, res ) => {
     if (req.query.name) {
-      res.status(200).send({ name: req.query.name });
+      req.name = req.query.name;
+      next();
     } else {
-      res.status(500).send();
+      next('Could not validate because there was no name in query!');
     }
 }
 
