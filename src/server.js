@@ -1,6 +1,7 @@
 const express = require('express');
 const server = express();
-// const { User } = require('./routes/user-route');
+const { foodRoute } = require('./routes/food-route');
+const { drinkRoute } = require('./routes/drink-route');
 const PORT = process.env.PORT;
 const notFound = require('./error-handlers/404');
 const serverError = require('./error-handlers/500');
@@ -23,6 +24,10 @@ server.get('/person', validator, (req, res ) => {
 server.use('*', notFound);
 
 server.use(serverError);
+
+server.use(foodRoute);
+
+server.use(drinkRoute);
 
 function start () {
   server.listen(PORT || 3002, () => {
