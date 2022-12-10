@@ -1,21 +1,22 @@
-const server = require('./server');
-const supertest = require('supertest');
-const { default: expect } = require('expect');
-
-const request = supertest(server);
+const validator = require('../src/middleware/validator');
 
 
-describe('Person route', () => {
+describe('Validator', () => {
+  test('With name gandalf', () => {
+    const req = { query: { name: 'Gandalf' } };
+    const next = jest.fn();
 
-  test('When query string present, output JSON to the client with this shape: { name: "name provided" }', async () => {
-    const response = await request.get('/person?name=Andra');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({ name: 'Andra' });
+    validator(req, {}, next);
+
+    expect(req.name).toBe('Gandalf');
+    expect(next).toHaveBeenCalled();
   });
-  test.todo('Without a name in the query string, force a "500" error');
-})
 
-test('Without a name in the query string, force a "500" error', async () => {
-  const response = await request.get('/person');
-  expect(response.statusCode).toBe(500);
+  test('with no name', () => {
+    const req = { query: {} };
+    const next = jest.fn();
+    validator(req, {}, next);
+
+    expect(next).toHaveBeenCalledWith('Could not validate because there was no name in query!');
+  });
 });
