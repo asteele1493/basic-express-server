@@ -1,12 +1,13 @@
 const express = require('express');
 
+const drinkRoute = express();
+
 const { Drink } = require('../models/index');
 
-const drinkRoute = express();
 
 // RESTful Route Declarations
 
-drinkRoute.get('/drink', getDrink); //Retrieve all
+drinkRoute.get('/drink', getDrinks); //Retrieve all
 drinkRoute.get('/drink/:id', getDrink); //Retrieve one
 drinkRoute.post('/drink', createDrink); //Create
 drinkRoute.put('/drink/:id', updateDrink); //Update
@@ -64,4 +65,6 @@ async function updateDrink (req, res) {
 }
 
 
-module.exports = { drinkRoute }
+module.exports = { 
+  drinkRoute,
+ }
