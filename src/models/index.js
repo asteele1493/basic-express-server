@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const { makeFood } = require('./food-model');
 const { makeDrink } = require('./drink-model');
+const { makeSaucey } = require('./saucey-model');
 
 const DATABASE_URL =
   process.env.NODE_ENV === 'test'
@@ -21,9 +22,11 @@ const sequelize = new Sequelize(DATABASE_URL, CONNECTION_OPTIONS);
 
 const Food = makeFood(sequelize);
 const Drink = makeDrink(sequelize);
+const Sauce = makeSaucey(sequelize);
 
 module.exports = {
   sequelize,
   Food,
   Drink,
+  Sauce
 };
