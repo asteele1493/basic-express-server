@@ -1,16 +1,17 @@
-const {express} = require('express');
-
-const Food = require('../models/food-model');
+const express = require('express');
 
 const foodRoute = express();
 
+const { Food } = require('../models/index');
+
+
 // RESTful Route Declarations
 
-foodRoutes.get('/food', getFood); //Retrieve all
-foodRoutes.get('/food/:id', getFood); //Retrieve one
-foodRoutes.post('/food', createFood); //Create
-foodRoutes.put('/food/:id', updateFood); //Update
-foodRoutes.delete('/food/:id', deleteFood); //Delete
+foodRoute.get('/food', getFoods); //Retrieve all
+foodRoute.get('/food/:id', getFood); //Retrieve one
+foodRoute.post('/food', createFood); //Create
+foodRoute.put('/food/:id', updateFood); //Update
+foodRoute.delete('/food/:id', deleteFood); //Delete
 
 async function getFoods(req, res ) {
   const allFood = await Food.findAll();
@@ -19,7 +20,7 @@ async function getFoods(req, res ) {
 
 async function getFood(req, res, next) {
 const id = req.params.id;
-const food = await food.findOne({where: {id: id}});
+const food = await Food.findOne({where: {id: id}});
   if (food === null) {
     //lets 404 handler deal with missing user
     next();
