@@ -2,7 +2,7 @@ const express = require('express');
 
 const foodRoute = express();
 
-const { Food } = require('../models/index');
+const { Food, Sauce } = require('../models/index');
 
 
 // RESTful Route Declarations
@@ -20,10 +20,20 @@ async function getFoods(req, res ) {
 
 async function getFood(req, res, next) {
 const id = req.params.id;
-const food = await Food.findOne({where: {id: id}});
+const food = await Food.findOne(
+{where: {id: id},
+include: Sauce,
+});
   if (food === null) {
     //lets 404 handler deal with missing user
     next();
+  } else {
+    const rawFood = {
+      id: food.id,
+      foodType: food.foodType,
+      sauceType: sauce.sauceType,
+      sauce: food.Sauce.map((sauce) => sauce.sauceType),
+    }
   }
   res.json(food);
 }
@@ -35,6 +45,11 @@ async function createFood(req, res) {
     foodType,
     quantity,
   });
+
+  const sauce = req.body.sauce ?? [];
+  for (const name of sauce) {
+    await food.createSauce({ sauceType });
+  }
   res.json(food);
 }
 
