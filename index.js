@@ -1,5 +1,5 @@
-const { config } = require('dotenv');
+require('dotenv').config();
+
 const { start } = require('./src/server.js');
 
-config();
 start();

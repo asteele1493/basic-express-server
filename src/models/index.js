@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
-const { makeFood, makeDrink } = require('../models');
+const { makeFood } = require('./food-model');
+const { makeDrink } = require('./drink-model');
 
 const DATABASE_URL =
   process.env.NODE_ENV === 'test'

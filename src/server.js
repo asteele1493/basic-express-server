@@ -5,6 +5,7 @@ const { drinkRoute } = require('./routes/drink-route');
 const PORT = process.env.PORT;
 const notFound = require('./error-handlers/404');
 const serverError = require('./error-handlers/500');
+const { sequelize } = require('./models');
 
 const logger = require('./middleware/logger');
 const validator = require('./middleware/validator');
@@ -12,7 +13,7 @@ const validator = require('./middleware/validator');
 
 server.get('/home', logger, (_, res) => res.status(200).send('Welcome home!'));
 
-// server.use(json());
+server.use(express.json());
 
 // server.use(User);
 
@@ -21,16 +22,17 @@ server.get('/person', validator, (req, res ) => {
 });
 
 
-server.use('*', notFound);
-
-server.use(serverError);
-
 server.use(foodRoute);
 
 server.use(drinkRoute);
 
+server.use('*', notFound);
+
+server.use(serverError);
+
 function start () {
-  server.listen(PORT || 3002, () => {
+  server.listen(PORT || 3002, async () => {
+    await sequelize.sync();
     console.log(`Listening on ${PORT}`);
   });
 }

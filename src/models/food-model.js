@@ -9,7 +9,7 @@ const { DataTypes} = require('sequelize');
 function makeFood(sequelize) {
   return sequelize.define('Food', {
     foodType: DataTypes.STRING,
-    quantity: DataTypes.NUMBER,
+    quantity: DataTypes.INTEGER
   });
 }
 

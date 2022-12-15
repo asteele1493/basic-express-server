@@ -1,16 +1,16 @@
-const {express} = require('express');
+const express = require('express');
 
-const Drink = require('../models/drink-model');
+const { Drink } = require('../models/index');
 
 const drinkRoute = express();
 
 // RESTful Route Declarations
 
-drinkRoutes.get('/drink', getDrink); //Retrieve all
-drinkRoutes.get('/drink/:id', getDrink); //Retrieve one
-drinkRoutes.post('/drink', createDrink); //Create
-drinkRoutes.put('/drink/:id', updateDrink); //Update
-drinkRoutes.delete('/drink/:id', deleteDrink); //Delete
+drinkRoute.get('/drink', getDrink); //Retrieve all
+drinkRoute.get('/drink/:id', getDrink); //Retrieve one
+drinkRoute.post('/drink', createDrink); //Create
+drinkRoute.put('/drink/:id', updateDrink); //Update
+drinkRoute.delete('/drink/:id', deleteDrink); //Delete
 
 async function getDrinks(req, res ) {
   const allDrink = await Drink.findAll();
@@ -19,7 +19,7 @@ async function getDrinks(req, res ) {
 
 async function getDrink(req, res, next) {
 const id = req.params.id;
-const drink = await drink.findOne({where: {id: id}});
+const drink = await Drink.findOne({ where : {id: id} });
   if (drink === null) {
     //lets 404 handler deal with missing user
     next();
