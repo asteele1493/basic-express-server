@@ -1,9 +1,8 @@
 const express = require('express');
 
-const foodRoute = express();
-
 const { Food, Sauce } = require('../models/index');
 
+const foodRoute = express();
 
 // RESTful Route Declarations
 
@@ -19,24 +18,21 @@ async function getFoods(req, res ) {
 }
 
 async function getFood(req, res, next) {
-const id = req.params.id;
-const food = await Food.findOne(
-{where: {id: id},
-include: Sauce,
-});
+  const id = req.params.id;
+  const food = await Food.findOne({ where: { id: id }, include: Sauce, });
   if (food === null) {
-    //lets 404 handler deal with missing user
     next();
   } else {
     const rawFood = {
-      id: food.id,
+      // id: food.id,
       foodType: food.foodType,
-      sauceType: sauce.sauceType,
+      quantity: food.quantity,
       sauce: food.Sauce.map((sauce) => sauce.sauceType),
-    }
-  }
-  res.json(food);
+    };
+  res.json(rawFood);
 }
+}
+
 
 async function createFood(req, res) {
   const foodType = req.body.foodType;
@@ -46,11 +42,28 @@ async function createFood(req, res) {
     quantity,
   });
 
-  const sauce = req.body.sauce ?? [];
-  for (const name of sauce) {
+  const sauce = req.body.sauce || [];
+  for (const sauceType of sauce) {
     await food.createSauce({ sauceType });
   }
   res.json(food);
+}
+
+async function updateFood (req, res, next) {
+  const id = req.params.id;
+  let food = await Food.findOne({where: {id: id}});
+  if(food === null){
+    next();
+  } else{
+    const foodType = req.body.foodType || food.foodType;
+    const quantity = req.body.quantity || food.quantity;
+    let updatedFood = {
+      foodType,
+      quantity,
+    };
+    food = await food.update(updatedFood);
+    res.json(food);
+  }
 }
 
 async function deleteFood(req, res, next) {
@@ -63,21 +76,6 @@ async function deleteFood(req, res, next) {
     await food.destroy();
     res.send({});
   }}
-
-async function updateFood (req, res) {
-  const id = req.params.id;
-  let food = await Food.findOne({where: {id: id}});
-  if(food === null){
-    next();
-  } else{
-    const foodType = req.body.foodType ?? food.foodType;
-    const quantity = req.body.quantity ?? food.quantity;
-    food.foodType = foodType;
-    food.quantity = quantity;
-    food = await food.update();
-    res.json(food);
-  }
-}
 
 
 module.exports = {

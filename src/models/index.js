@@ -24,6 +24,8 @@ const Food = makeFood(sequelize);
 const Drink = makeDrink(sequelize);
 const Sauce = makeSaucey(sequelize);
 
+Food.hasMany(Sauce);
+
 module.exports = {
   sequelize,
   Food,

@@ -1,4 +1,4 @@
-const { DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 
 //As a former chef, I love sauces to eat with the appropriate foods. This model will correspond to the food model
 
