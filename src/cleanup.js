@@ -1,8 +1,8 @@
-require('dotenv').config();
-const { sequelize } = require("./models");
+// require('dotenv').config();
+// const { sequelize } = require("./models");
 
-async function cleanup () {
-await sequelize.drop();
-}
+// async function cleanup () {
+// await sequelize.drop();
+// }
 
-cleanup();
+// cleanup();

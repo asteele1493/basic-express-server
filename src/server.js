@@ -6,6 +6,7 @@ const PORT = process.env.PORT;
 const notFound = require('./error-handlers/404');
 const serverError = require('./error-handlers/500');
 const { sequelize } = require('./models');
+// const { auth } = require('./auth');
 
 const logger = require('./middleware/logger');
 const validator = require('./middleware/validator');
@@ -14,6 +15,8 @@ const validator = require('./middleware/validator');
 server.get('/home', logger, (_, res) => res.status(200).send('Welcome home!'));
 
 server.use(express.json());
+
+// server.use(auth);
 
 // server.use(User);
 

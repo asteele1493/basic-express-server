@@ -49,17 +49,19 @@ async function deleteDrink(req, res, next) {
     res.send({});
   }}
 
-async function updateDrink (req, res) {
+async function updateDrink (req, res, next) {
   const id = req.params.id;
   let drink = await Drink.findOne({where: {id: id}});
   if(drink === null){
     next();
   } else{
-    const drinkType = req.body.drinkType ?? drink.drinkType;
-    const quantity = req.body.quantity ?? drink.quantity;
-    drink.drinkType = drinkType;
-    drink.quantity = quantity;
-    drink = await drink.update();
+    const drinkType = req.body.drinkType || drink.drinkType;
+    const quantity = req.body.quantity || drink.quantity;
+    let updatedDrink = {
+    drinkType,
+    quantity,
+    };
+    drink = await drink.update(updatedDrink);
     res.json(drink);
   }
 }
