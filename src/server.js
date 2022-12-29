@@ -20,7 +20,7 @@ server.use(express.json());
 
 // server.use(User);
 
-server.get('/person', validator, (req, res ) => {
+server.get('/personn', validator, (req, res ) => {
   res.status(200).send({ name : req.name });
 });
 
