@@ -24,7 +24,7 @@ async function getFood(req, res, next) {
     next();
   } else {
     const rawFood = {
-      // id: food.id,
+      id: food.id,
       foodType: food.foodType,
       quantity: food.quantity,
       sauce: food.Sauce.map((sauce) => sauce.sauceType),
