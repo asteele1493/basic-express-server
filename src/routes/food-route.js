@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { Food, Sauce } = require('../models/index');
+const { Food, Sauce } = require('../models');
 
 const foodRoute = express();
 
