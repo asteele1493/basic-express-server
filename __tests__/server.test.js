@@ -1,5 +1,6 @@
 const { server } = require('../src/server');
 const supertest = require('supertest');
+const { sequelize } = require('../src/models');
 const request = supertest(server);
 
 describe('Person Route', () => {
@@ -20,3 +21,16 @@ describe('Person Route', () => {
     expect(response.statusCode).toBe(500);
   });
 });
+
+//REST route tests
+
+//Food route
+describe('REST route tests', () => {
+  beforeEach(() => sequelize.sync());
+
+  test('Gets all food items', async() => {
+    const response = await request.get('/food');
+    expect(response.statusCode).toBe(200);
+  });
+  
+})

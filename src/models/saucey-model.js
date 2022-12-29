@@ -5,8 +5,9 @@ const { DataTypes } = require('sequelize');
 function makeSaucey(sequelize) {
   return sequelize.define('Sauce', {
     sauceType: DataTypes.STRING,
-    temp: DataTypes.BOOLEAN
   });
 }
 
-module.exports = { makeSaucey }
+
+
+module.exports = { makeSaucey };
