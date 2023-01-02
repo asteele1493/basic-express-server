@@ -4,14 +4,16 @@ const bcrypt = require("bcrypt");
 const COMPLEXITY = 4;
 
 function makeUser(sequelize) {
-  const User = sequelize.define("User", {
+  const User = sequelize.define('User', {
     username: DataTypes.STRING,
     password: DataTypes.STRING,
   });
 
+  console.log(User);
+
   User.createWithHashed = async (username, password) => {
     password = await bcrypt.hash(password, COMPLEXITY);
-    console.log("Creating new user", username, password);
+    console.log('Creating new user', username, password);
     const user = await User.create({ username, password });
     return user;
   };
