@@ -1,5 +1,6 @@
 const express = require("express");
 const base64 = require("base-64");
+const jwt = require('jsonwebtoken');
 
 const { User } = require('../models');
 
@@ -37,10 +38,34 @@ async function signin(req, res, next) {
   const [username, password] = authorization.split(':');
   let user = await User.findLoggedIn(username, password);
   if (user) {
-    res.status(200).send({ username: user.username });
+    // res.status(200).send({ username: user.username });
+    const data = ({ username: user.username });
+    const token = jwt.sign(data, 'hello');
+    //Instead of sending back the username, send back the JWT.
+    res.send(token);
   } else {
     next(new Error('Invalid login'));
   }
 }
 
-module.exports = { authRoutes };
+//handler function
+async function checkToken(request, _, next) {
+  //look up the token
+  const authorization = request.header('Authorization') ?? '';
+   if (!authorization.startsWith('Bearer ')){
+    next(new Error('Missing required bearer header'));
+    return;
+   }
+   //remove opening portion of header and decrypt
+   try{
+   const token = authorization.replace('Bearer ', '');
+   const decoded = jwt.verify(token, 'hello');
+   request.username = decoded.username;
+   next();
+   } catch (e){
+    next(new Error('Failed to decode', {cause: e}))
+   }
+}
+
+
+module.exports = { authRoutes, signin, signup, checkToken };
