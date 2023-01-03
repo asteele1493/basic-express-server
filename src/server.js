@@ -10,6 +10,7 @@ const { authRoutes } = require('./auth');
 
 const logger = require('./middleware/logger');
 const validator = require('./middleware/validator');
+const { checkToken } = require('./auth/routes');
 
 
 server.get('/home', logger, (_, res) => res.status(200).send('Welcome home!'));
@@ -23,6 +24,10 @@ server.use(authRoutes);
 server.get('/person', validator, (req, res ) => {
   res.status(200).send({ name : req.name });
 });
+
+server.get('/loggedin', checkToken, (req, res) => {
+  res.status(200).send('You are logged in, ' + req.username + '!');
+})
 
 
 server.use(foodRoute);
